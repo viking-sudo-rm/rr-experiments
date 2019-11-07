@@ -12,28 +12,43 @@ from allennlp.data.token_indexers import SingleIdTokenIndexer
 @DatasetReader.register("anbk")
 class AnbkReader(DatasetReader):
 
-    def __init__(self):
+    def __init__(self,
+                 prefix: bool = True,
+                 abs_value: bool = False):
         super().__init__(lazy=False)
         self._token_indexers = {"tokens": SingleIdTokenIndexer()}
+        self.prefix = prefix
+        self.abs_value = abs_value
 
-    def _read(self, max_n: int):
+    def _read(self, path: str):
         """Build string/label pairs of the form:
-            aaabbbbbb
-            000011100
+            aa-bbbb / 00-0110
+            aaaa-bbbbbbbb / 0000-00111100
+
+        num_sents is read as a string because of AllenNLP API.
         """
-        for n in range(max_n):
-            start_idx = n // 2
-            end_idx = (3 * n) // 2
+        start_n, end_n = [int(n) for n in path.split(":")]
+        assert start_n % 2 == 0
+        assert end_n % 2 == 0
 
-            tokens = []
-            tokens.extend("a" for _ in range(n))
+        for n in range(start_n, end_n, 2):
+            tokens, tags = [], []
+
+            if self.prefix:
+                # Add the prefix of a's.
+                tokens.extend("a" for _ in range(n))
+                tags.extend("0" for _ in range(n))
+
             tokens.extend("b" for _ in range(2 * n))
+            tags.extend("0" for _ in range(n // 2))
+            tags.extend("1" for _ in range(n))
 
-            tags = []
-            tags.extend("0" for _ in range(n))
-            tags.extend("0" for _ in range(start_idx))
-            tags.extend("1" for _ in range(end_idx - start_idx))
-            tags.extend("0" for _ in range(n - end_idx))
+            if self.abs_value:
+                # Worry about switching back behavior.
+                tags.extend("0" for _ in range(n // 2))
+            else:
+                # Don't worry about switch back behavior.
+                tags.extend("1" for _ in range(n // 2))
 
             yield self.text_to_instance(tokens, tags)
 
