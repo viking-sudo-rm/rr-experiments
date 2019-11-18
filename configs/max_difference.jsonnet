@@ -1,16 +1,19 @@
+local RNN = std.extVar("RNN");
+local HIDDEN_DIM = std.extVar("H");
+
+
 {
 
   "dataset_reader": {
-    "type": "anbk",
-    "prefix": true,
-    "abs_value": true
+    "type": "max_difference",
   },
 
-  "train_data_path": "2:300",
-  "validation_data_path": "310:320",
+  "train_data_path": 5000,
+  "validation_data_path": 500,
 
   "model": {
-    "type": "simple_tagger",
+    "type": "tagger2",
+    "hidden_dim": HIDDEN_DIM,
 
     "text_field_embedder": {
       "token_embedders": {
@@ -22,7 +25,7 @@
     },
 
     "encoder": {
-      "type": "lstm",
+      "type": RNN,
       "input_size": 4,
       "hidden_size": 10,
       "num_layers": 1
@@ -37,8 +40,10 @@
   },
   "trainer": {
     "optimizer": "adam",
+    "validation_metric": "+accuracy",
     "num_epochs": 100,
     "patience": 10,
-    "cuda_device": -1
+    "cuda_device": 0,
+    "num_serialized_models_to_keep": 1
   }
 }
