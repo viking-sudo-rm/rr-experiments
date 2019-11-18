@@ -14,16 +14,17 @@ from allennlp.data.token_indexers import SingleIdTokenIndexer
 class AnbkReader(DatasetReader):
 
     def __init__(self,
-                 max_difference: int = 5,
-                 length: int = 32):
+                 max_difference: int = 5):
         super().__init__(lazy=False)
         self.max_difference = max_difference
-        self.length = length
         self.token_indexers = {"tokens": SingleIdTokenIndexer()}
 
-    def _read(self, num_samples: int):
+    def _read(self, path: str):
+        """In order to fit the standard API for reading data, we use a "path" to specify properties
+        of the data to generate."""
+        num_samples, length = [int(x) for x in path.split(":")]
         for _ in range(num_samples):
-            tokens, tags = self._sample()
+            tokens, tags = self._sample(length)
             yield self.text_to_instance(tokens, tags)
 
     @overrides
@@ -35,11 +36,11 @@ class AnbkReader(DatasetReader):
             "tags": tags_field,
         })
 
-    def _sample(self):
+    def _sample(self, length: int):
         tokens = []
         tags = []
         count = 0
-        for _ in range(self.length):
+        for _ in range(length):
             token = random.choice("ab")
             count += 1 if token == "a" else -1
             tag = abs(count) < self.max_difference

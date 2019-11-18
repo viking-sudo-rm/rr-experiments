@@ -8,8 +8,8 @@ local HIDDEN_DIM = std.extVar("H");
     "type": "max_difference",
   },
 
-  "train_data_path": 5000,
-  "validation_data_path": 500,
+  "train_data_path": "5000:32",
+  "validation_data_path": "500:32",
 
   "model": {
     "type": "tagger2",
