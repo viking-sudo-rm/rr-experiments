@@ -7,6 +7,7 @@ Installation:
 
 ```shell
 pip install allennlp
+pip install cupy pynvrtc git+https://github.com/salesforce/pytorch-qrnn
 ```
 
 To train an LSTM:
