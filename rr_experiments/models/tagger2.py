@@ -16,7 +16,7 @@ from allennlp.training.metrics import CategoricalAccuracy, SpanBasedF1Measure
 
 
 @Model.register("tagger2")
-class SimpleTagger(Model):
+class Mlp2Tagger(Model):
     """
     This ``SimpleTagger`` simply encodes a sequence of text with a stacked ``Seq2SeqEncoder``, then
     predicts a tag for each token in the sequence.
