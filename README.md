@@ -10,6 +10,8 @@ pip install allennlp
 pip install cupy pynvrtc git+https://github.com/salesforce/pytorch-qrnn
 ```
 
+For some reason, jsonnet isn't supported on Windows, so we recommend running this on Mac/Linux so that the config macros work properly.
+
 ### Training
 
 ```shell
