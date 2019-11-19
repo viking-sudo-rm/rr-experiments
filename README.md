@@ -19,7 +19,7 @@ RNN=lstm H=None allennlp train configs/max_difference.jsonnet \
 
 The RNN architecture is specified by `RNN`. Some example options are `rnn`, `gru`, `lstm`, and `qrnn`. It's pretty easy to define and register your own `Seq2SeqEncoder` to slot in here.
 
-If `H` is set, then the model will use a two-layer pooler with hidden dimension `H`. If `H=None`, then a one-layer pooler will be used.
+If `H=None`, then a one-layer pooler will be used. If `H` is set, then the model will use a two-layer pooler with hidden dimension `H`.
 
 ### Evaluation
 
