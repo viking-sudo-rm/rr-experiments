@@ -3,19 +3,23 @@ Experiments with rational recurrences, pooling functions, and absolute values.
 
 ## Usage
 
-Installation:
+### Installation
 
 ```shell
 pip install allennlp
 pip install cupy pynvrtc git+https://github.com/salesforce/pytorch-qrnn
 ```
 
-To train an LSTM:
+### Training
 
 ```shell
-RNN=lstm H=None LEN=32 allennlp train configs/max_difference.jsonnet \
+RNN=lstm H=None allennlp train configs/max_difference.jsonnet \
     -s /tmp/lstm --include-package rr_experiments
 ```
+
+The RNN architecture is specified by `RNN`. If `H` is set, then the model will use a two-layer pooler with hidden dimension `H`. If `H=None`, then a one-layer pooler will be used.
+
+### Evaluation
 
 To evaluate on 500 sentences of length 2048:
 

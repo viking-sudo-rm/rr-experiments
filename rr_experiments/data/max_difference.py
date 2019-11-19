@@ -11,18 +11,21 @@ from allennlp.data.token_indexers import SingleIdTokenIndexer
 
 
 @DatasetReader.register("max_difference")
-class AnbkReader(DatasetReader):
+class MaxDifferenceReader(DatasetReader):
 
     def __init__(self,
-                 max_difference: int = 5):
+                 max_difference: int = 5,
+                 seed: int = 2):
         super().__init__(lazy=False)
         self.max_difference = max_difference
+        self.seed = 2
         self.token_indexers = {"tokens": SingleIdTokenIndexer()}
 
     def _read(self, path: str):
         """In order to fit the standard API for reading data, we use a "path" to specify properties
         of the data to generate."""
         num_samples, length = [int(x) for x in path.split(":")]
+        random.seed(self.seed)
         for _ in range(num_samples):
             tokens, tags = self._sample(length)
             yield self.text_to_instance(tokens, tags)

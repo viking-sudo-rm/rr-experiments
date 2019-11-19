@@ -3,17 +3,18 @@ local RNN = std.extVar("RNN");
 local HIDDEN_DIM = std.extVar("H");
 
 # Task parameters.
-local LENGTH = std.extVar("LEN");
+local LENGTH = 64;
 
 
 {
 
   "dataset_reader": {
     "type": "max_difference",
+    "seed": 2,
   },
 
-  "train_data_path": "5000:" + PATH,
-  "validation_data_path": "500:" + PATH,
+  "train_data_path": "10000:" + LENGTH,
+  "validation_data_path": "1000:" + LENGTH,
 
   "model": {
     "type": "tagger2",
