@@ -71,13 +71,17 @@ class Mlp2Tagger(Model):
         self.num_classes = self.vocab.get_vocab_size(label_namespace)
         self.encoder = encoder
         self._verbose_metrics = verbose_metrics
-        self.tag_projection_layer = TimeDistributed(
-            torch.nn.Sequential(
+
+        if hidden_dim is None:
+            pooler = torch.nn.Linear(self.encoder.get_output_dim(), self.num_classes)
+        else:
+            pooler = torch.nn.Sequential(
                 torch.nn.Linear(self.encoder.get_output_dim(), hidden_dim),
+                torch.nn.ReLU(),
                 torch.nn.Linear(hidden_dim, self.num_classes)
-            ) if hidden_dim is not None else
-            torch.nn.Linear(self.encoder.get_output_dim(), self.num_classes)
-        )
+            )
+
+        self.tag_projection_layer = TimeDistributed(pooler)
 
         check_dimensions_match(
             text_field_embedder.get_output_dim(),
