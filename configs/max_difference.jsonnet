@@ -1,5 +1,9 @@
+# Model hyperparameters.
 local RNN = std.extVar("RNN");
 local HIDDEN_DIM = std.extVar("H");
+
+# Task parameters.
+local LENGTH = std.extVar("LEN");
 
 
 {
@@ -8,8 +12,8 @@ local HIDDEN_DIM = std.extVar("H");
     "type": "max_difference",
   },
 
-  "train_data_path": "5000:32",
-  "validation_data_path": "500:32",
+  "train_data_path": "5000:" + PATH,
+  "validation_data_path": "500:" + PATH,
 
   "model": {
     "type": "tagger2",

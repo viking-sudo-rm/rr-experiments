@@ -13,7 +13,8 @@ pip install cupy pynvrtc git+https://github.com/salesforce/pytorch-qrnn
 To train an LSTM:
 
 ```shell
-RNN=lstm H=None allennlp train configs/max_difference.jsonnet -s /tmp/lstm --include-package rr_experiments
+RNN=lstm H=None LEN=32 allennlp train configs/max_difference.jsonnet \
+    -s /tmp/lstm --include-package rr_experiments
 ```
 
 To evaluate on 500 sentences of length 2048:
