@@ -1,8 +1,9 @@
 # Model hyperparameters.
 local RNN = std.extVar("RNN");
-local HIDDEN_DIM = std.extVar("H");
 
 # Task parameters.
+local NUM_TRAIN = 100000;
+local NUM_VALID = 10000;
 local LENGTH = 64;
 
 
@@ -13,12 +14,11 @@ local LENGTH = 64;
     "seed": 2,
   },
 
-  "train_data_path": "10000:" + LENGTH,
-  "validation_data_path": "1000:" + LENGTH,
+  "train_data_path": NUM_TRAIN + ":" + LENGTH,
+  "validation_data_path": NUM_VALID + ":" + LENGTH,
 
   "model": {
-    "type": "tagger2",
-    "hidden_dim": HIDDEN_DIM,
+    "type": "simple_tagger",
 
     "text_field_embedder": {
       "token_embedders": {
