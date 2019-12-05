@@ -5,9 +5,11 @@ Experiments with rational recurrences, pooling functions, and absolute values.
 
 ### Installation
 
+Built using allennlp. We use the fastai QRNN implementation.
+
 ```shell
 pip install allennlp
-pip install cupy pynvrtc git+https://github.com/salesforce/pytorch-qrnn
+pip install fastai
 ```
 
 For some reason, jsonnet isn't supported on Windows, so we recommend running this on Mac/Linux so that the config macros work properly.

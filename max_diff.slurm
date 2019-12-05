@@ -10,7 +10,7 @@ source /home/willm/anaconda3/bin/activate allennlp
 conf=/home/willm/code/rr-experiments/configs/max_difference.jsonnet
 
 rnn=qrnn
-layers=1
-dir=/tmp/willm/$rnn
+layers=2
+dir=/tmp/willm/2$rnn
 
 RNN=$rnn LAYERS=$layers allennlp train $conf -s $dir --include-package=rr_experiments
