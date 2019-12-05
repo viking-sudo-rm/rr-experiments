@@ -3,13 +3,14 @@
 #SBATCH --mail-type=BEGIN
 #SBATCH --mail-type=END
 #SBATCH --mail-type=FAIL
-#SBATCH --output=/net/nfs.corp/allennlp/slurm/willm/slurm/%j.out
+#SBATCH --output=/net/nfs.corp/allennlp/slurm/willm/%j.out
 #SBATCH --gpus=1
 
-source /home/willm/anaconda3/bin/activate
+source /home/willm/anaconda3/bin/activate allennlp
 conf=/home/willm/code/rr-experiments/configs/max_difference.jsonnet
 
-rnn=lstm
+rnn=qrnn
+layers=1
 dir=/tmp/willm/$rnn
 
-RNN=$rnn allennlp train $conf -s $dir --include-package=rr_experiments
+RNN=$rnn LAYERS=$layers allennlp train $conf -s $dir --include-package=rr_experiments

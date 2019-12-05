@@ -1,5 +1,6 @@
 # Model hyperparameters.
 local RNN = std.extVar("RNN");
+local LAYERS = std.extVar("LAYERS");
 
 # Task parameters.
 local NUM_TRAIN = 100000;
@@ -33,7 +34,7 @@ local LENGTH = 64;
       "type": RNN,
       "input_size": 4,
       "hidden_size": 10,
-      "num_layers": 1
+      "num_layers": LAYERS,
     }
 
   },

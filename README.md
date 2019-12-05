@@ -15,11 +15,11 @@ For some reason, jsonnet isn't supported on Windows, so we recommend running thi
 ### Training
 
 ```shell
-RNN=lstm allennlp train configs/max_difference.jsonnet \
+RNN=lstm LAYERS=1 allennlp train configs/max_difference.jsonnet \
     -s /tmp/lstm --include-package rr_experiments
 ```
 
-The RNN architecture is specified by `RNN`. Some example options are `rnn`, `gru`, `lstm`, and `qrnn`. It's pretty easy to define and register your own `Seq2SeqEncoder` to slot in here.
+The RNN architecture is specified by `RNN`. Some example options are `rnn`, `gru`, `lstm`, and `qrnn`. It's pretty easy to define and register your own `Seq2SeqEncoder` to slot in here. The variable `LAYERS` specifies how many RNN layers to use.
 
 ### Evaluation
 

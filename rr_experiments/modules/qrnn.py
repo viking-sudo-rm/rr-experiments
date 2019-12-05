@@ -1,6 +1,7 @@
 from overrides import overrides
-from torchqrnn import QRNN
-import torch
+# Need to do pip install pynvrtc==8.0 for CUDA 9.0.
+# from torchqrnn import QRNN
+from fastai.text.models.qrnn import QRNN
 
 from allennlp.modules.seq2seq_encoders.seq2seq_encoder import Seq2SeqEncoder
 
@@ -8,28 +9,28 @@ from allennlp.modules.seq2seq_encoders.seq2seq_encoder import Seq2SeqEncoder
 @Seq2SeqEncoder.register("qrnn")
 class QRNNEncoder(Seq2SeqEncoder):
 
-    """Wraps a QRNN model into an AllenNLP encoder with the same API as LSTM."""
+    """Wraps a QRNN model into an AllenNLP encoder.
+    TODO: Just use a PytorchSeq2SeqWrapper?"""
 
     def __init__(self,
                  input_size: int,
                  hidden_size: int,
+                 bidirectional: bool = False,
                  num_layers: int = 1,
-                 dropout: float = 0.):
+                 window: int = None):
         super().__init__()
         self.input_size = input_size
         self.hidden_size = hidden_size
-        self.bidirectional = False
-        self._qrnn = QRNN(input_size,
-                          hidden_size,
-                          num_layers=num_layers,
-                          dropout=dropout)
+        self.bidirectional = bidirectional
+        self._qrnn = QRNN(input_size, hidden_size,
+                          batch_first=True,
+                          bidirectional=bidirectional,
+                          n_layers=num_layers,
+                          window=window)
 
     @overrides
     def forward(self, inputs, mask):
-        # The Salesforce implementation doesn't support batch_first.
-        inputs = torch.transpose(inputs, 0, 1)
-        states, _ = self._qrnn(inputs)
-        states = torch.transpose(states, 0, 1)
+        states, _ = self._qrnn(inputs, None)
         return states
 
     @overrides
