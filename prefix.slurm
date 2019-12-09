@@ -7,10 +7,10 @@
 #SBATCH --gpus=1
 
 source /home/willm/anaconda3/bin/activate allennlp
-conf=/home/willm/code/rr-experiments/configs/max_difference.jsonnet
+conf=/home/willm/code/rr-experiments/configs/prefix.jsonnet
 
 rnn=qrnn
 layers=2
-dir=/tmp/willm/qrnn2
+dir=/tmp/willm/pre-qrnn2
 
 RNN=$rnn LAYERS=$layers allennlp train $conf -s $dir --include-package=rr_experiments

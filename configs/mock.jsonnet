@@ -1,7 +1,10 @@
+local TASK = std.extVar("TASK");
+
+
 {
 
   "dataset_reader": {
-    "type": "max_difference",
+    "type": TASK,
     "seed": 2,
   },
 

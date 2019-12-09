@@ -11,7 +11,7 @@ local LENGTH = 64;
 {
 
   "dataset_reader": {
-    "type": "max_difference",
+    "type": "prefix",
     "seed": 2,
   },
 
