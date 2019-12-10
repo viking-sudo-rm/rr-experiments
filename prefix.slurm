@@ -9,8 +9,8 @@
 source /home/willm/anaconda3/bin/activate allennlp
 conf=/home/willm/code/rr-experiments/configs/prefix.jsonnet
 
-rnn=qrnn
-layers=2
-dir=/tmp/willm/pre-qrnn2
+rnn=qrnn+
+layers=1
 
+dir=/tmp/willm/pre-$rnn
 RNN=$rnn LAYERS=$layers allennlp train $conf -s $dir --include-package=rr_experiments

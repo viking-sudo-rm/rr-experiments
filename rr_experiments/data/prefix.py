@@ -48,26 +48,31 @@ class PrefixReader(DatasetReader):
         tokens.extend("b" for _ in range(n))
         tokens.extend(random.choice(self.LEXICON) for _ in range(length - 2 * n))
 
-        return tokens, self._get_tags(tokens)
+        tags = self._get_tags(tokens)
+        return tokens, tags
 
     @staticmethod
     def _get_tags(string):
+        # Check if there is a prefix of anbn with n>0.
         tags = []
+        in_prefix = True
         has_prefix = False
         counter = 0
         a_mode = True
         for char in string:
-            if a_mode:
-                if char == "a":
-                    counter += 1
+            if in_prefix:
+                if a_mode:
+                    if char == "a":
+                        counter += 1
+                    else:
+                        a_mode = False
+                        counter -= 1
                 else:
-                    a_mode = False
-                    counter -= 1
-            else:
-                if char == "b":
-                    counter -= 1
-                else:
-                    has_prefix = True
+                    if char == "b":
+                        counter -= 1
+                    else:
+                        in_prefix = False
+                        has_prefix = (counter == 0)
 
             tags.append(str(has_prefix))
 
